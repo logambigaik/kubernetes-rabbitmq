@@ -17,7 +17,7 @@ spec:
       - path: /
         backend:
           serviceName: rabbitmq
-          servicePort: 80
+          servicePort: 15672
 
   tls:
   - secretName: vamsitechtuts-tls

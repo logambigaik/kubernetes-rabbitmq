@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  labels:
+    app: rabbitmq-server
+data:
+  enabled_plugins: |
+      [rabbitmq_mqtt,rabbitmq_web_mqtt,rabbitmq_management,rabbitmq_auth_backend_cache,rabbitmq_auth_backend_http,rabbitmq_peer_discovery_aws].
+  rabbitmq.conf: |
+    loopback_users.guest = false
+    listeners.tcp.default = 5672
+    hipe_compile = false
+    management.listener.port = 15672
+    management.listener.ssl = false

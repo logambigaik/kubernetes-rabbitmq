@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rabbitmq
+  name: rabbitmq
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: naresh240/rabbitmq:latest
+        ports:
+        - name: clitool
+          containerPort: 25672
+        - name: client-access-2
+          containerPort: 5672
+        - name: client-access-1
+          containerPort: 5671
+        - name: epmd
+          containerPort: 4369
+        - name: http
+          containerPort: 15672
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1024Mi
+          limits:
+            cpu: 2000m
+            memory: 2048Mi
+        env:
+        - name: RabbitMQ_Username
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secrets
+              key: username
+        - name: RabbitMQ_Password
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secrets
+              key: password
+      volumes:
+      - name: rabbitmq-config
+        configMap:
+          name: rabbitmq-config
+          items:
+          - key: rabbitmq.conf
+            path: rabbitmq.conf
+          - key: rabbitmq.conf
+            path: rabbitmq.conf
